@@ -11,14 +11,22 @@ app = Flask(__name__)
 CORS(app)
 
 UPLOAD_FOLDER = 'uploads'
+import os
+import logging
+
 UPLOAD_FOLDER = 'uploads'
 
-if not os.path.isdir(UPLOAD_FOLDER):
-    try:
-        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-        logging.info(f"Created directory: {UPLOAD_FOLDER}")
-    except Exception as e:
-        logging.error(f"Failed to create upload folder: {e}")
+# Check if path exists and is NOT a directory
+if os.path.exists(UPLOAD_FOLDER) and not os.path.isdir(UPLOAD_FOLDER):
+    logging.warning(f"'{UPLOAD_FOLDER}' exists and is not a directory. Removing it.")
+    os.remove(UPLOAD_FOLDER)  # remove the file
+
+# Now safely make the directory
+try:
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    logging.info(f"Upload folder created: {UPLOAD_FOLDER}")
+except Exception as e:
+    logging.error(f"Failed to create upload folder: {e}")
 
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

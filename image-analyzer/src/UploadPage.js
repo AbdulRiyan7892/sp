@@ -18,7 +18,7 @@ function UploadPage() {
 
     try {
       const response = await axios.post(
-        'https://sp-2-nusn.onrender.com/analyze',
+        'https://sp-3.onrender.com/analyze',
         formData,
         {
           headers: {
